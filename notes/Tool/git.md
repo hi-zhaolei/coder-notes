@@ -12,6 +12,12 @@
   * [Windows setup](https://help.github.com/articles/set-up-git/#platform-windows)
   * [Linux setup](https://help.github.com/articles/set-up-git/#platform-linux)
 
+## 工作流
+
+你的本地仓库由**git**维护的三棵“树”组成。第一个是你的**工作目录**，它持有实际文件；第二个是**缓存区（Index）**，它像个缓存区域，临时保存你的改动；最后是**HEAD**，指向你最近一次提交后的结果。
+
+![git workflow](/img/git_2.png)
+
 ## Git命令
 
 ### git config
@@ -27,6 +33,21 @@
 通过给出地址**Clone**一个**Repository**，并根据需要是否指定本地**Repository**名
 
 **git clone**支持多种协议，除了**HTTP(s)**以外，还支持**SSH**、**Git**、本地文件协议
+
+### git status
+
+在一个**Git**的**Repository**中，你可以输入`git status`来检查目前**Git**的状态
+
+### git add
+
+当有了新增计划改动，**Git**会提示有**Untracked files**未被追踪档案，之后需要使用`git add`来告诉**Git**开始追踪它。
+
+没有修改过的文件称为**unstage**，追踪后的状态为**stage**
+
+### git commit
+
+已经在**stage**下的文件下一步就是**commit**，以实际提交改动到**HEAD**。
+每一个**commit**在**Git**中就是一个节点，这些节点就是将来你可以回顾和追查的参考。
 
 ### git remote
 
@@ -64,13 +85,14 @@
 
 ### git push
 
-* **git push <远程主机名> <本地分支名>:<远程分支名>**将本地分支的更新，推送到远程主机
+* **git push <远程主机名> [[<本地分支名>:]<远程分支名>]**将本地仓库**HEAD**中的更新推送到远程仓库
 
 * 如果省略远程分支名，则表示将本地分支推送与之存在"追踪关系"的远程分支（通常两者同名），如果该远程分支不存在，则会被新建
 
 * 如果省略本地分支名，则表示删除指定的远程分支，因为这等同于推送一个空的本地分支到远程分支
 
 * 如果当前分支只有一个追踪分支，那么主机名都可以省略。
+
 * **git branch --set-upstream <本地分支> <远程分支名>**手动建立追踪关系
 
 ### git branch
@@ -100,20 +122,6 @@ git分支操作
 * **git checkout -- <file>**取消修改过的档案
 
 * **git commit --amend**修改之前commit信息
-
-### git status
-
-在一个**Git**的**Repository**中，你可以输入`git status`来检查目前**Git**的状态
-
-### git add
-
-当有了新增文件后，**Git**会提示有**Untracked files**未被追踪档案，之后需要使用`git add`来告诉**Git**开始追踪它。
-
-没有修改过的文件称为**unstage**，追踪后的状态为**stage**
-
-### git commit
-
-已经在**stage**下的文件下一步就是**commit**。每一个**commit**在**Git**中就是一个节点，这些节点就是将来你可以回顾和追查的参考。
 
 ### git log
 
