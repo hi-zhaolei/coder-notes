@@ -1,10 +1,10 @@
-# Nnginx
+# Nginx
 
 ## 配置文件
 
-### 定义Nginx运行的用户和用户组
+### user
 
-user www www;
+定义Nginx运行的用户和用户组，可多个，空格隔开
 
 ### worker_processes
 
@@ -182,7 +182,7 @@ server {
 ```
 当我们访问localhost的时候，就相当于访问localhost:8080了
 
-### 负责均衡
+### 负载均衡
 
 负载均衡也是**Nginx**常用的一个功能
 负载均衡其意思就是分摊到多个操作单元上进行执行，从而共同完成工作任务。
