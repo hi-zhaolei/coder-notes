@@ -25,11 +25,21 @@ filter(is(Number), [0, '1', 2, null]) // 0, 2
 
 ## 偏函数 (Partial Function)
 
-对原始函数预设参数作为一个新的函数
+针对原始函数的参数，固定一部分并生成一个新的函数
+
+```
+const sum = (a, b, c) => a + b + c
+const partial = (a, c) => sum(a, 2, c)
+partial(1, 3)
+```
 
 ## 柯里化 (Currying)
 
 将一个多元函数转变为一元函数的过程。 每当函数被调用时，它仅仅接收一个参数并且返回带有一个参数的函数，直到传递完所有的参数
+
+```
+
+```
 
 ## 自动柯里化 (Auto Currying)
 

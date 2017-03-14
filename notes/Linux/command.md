@@ -1,5 +1,108 @@
 # Linux命令
 
+## curl
+
+网络请求, 相关的还有 traceroute, dig 等
+
+## find
+
+文件查找
+
+### 常用参数
+
+* 文件名 -name
+* 文件类型-type
+* 查找最大深度-maxdepth
+* 时间过滤(create/access/modify) -[cam]time
+* 执行动作 -exec
+
+## grep
+
+查找过滤文本
+
+### 常用参数
+
+* -v(invert-match),
+* -c(count),
+* -n(line-number),
+* -i(ignore-case),
+* -l, -L, -R(-r, –recursive), -e
+
+## awk
+
+### 基本参数
+
+* NR 行号, NF 列数量
+* $1 第1列, $2, $3…
+* -F fs fs分隔符，字符串或正则
+
+### 语法
+
+awk 'BEGIN{ commands } pattern{ commands } END{ commands }'
+
+### 流程
+
+* 执行begin
+* 对输入每一行执行 pattern{ commands }, pattern 可以是 正则/reg exp/, 关系运算等
+* 处理完毕, 执行 end
+
+## sed
+
+文本替换
+
+### 常用参数
+
+* -d 删除
+* -s 替换, g 全局
+* -e 多个命令叠加
+* -i 修改原文件(Mac下加参数 “”, 备份)
+
+## cut
+
+按列取数据，awk也可以
+
+### 常用参数
+
+* -b(字节)
+* -c(字符)
+* -f(第几列), -d(分隔符), f范围: n, n-, -m, n-m
+
+## sort
+
+排序
+
+### 常用参数
+
+* -d, –dictionary-order
+* -n, –numeric-sort
+* -r, –reverse
+* -b, –ignore-leading-blanks
+* -k, –key
+
+## uniq
+
+一般和 sort 一块用, 只能去重相邻的行
+
+### 常用参数
+
+* -c 重复次数
+* -d 重复的
+* -u 没重复的
+* -f 忽略前几列
+
+## diff
+
+比较文件
+
+## paste
+
+两个文件按列拼接
+
+### 常用参数
+
+* -d 分隔符
+* -s 列转行
+
 ## ps
 
 **ps**是**Process Status**的缩写，用来列出系统中当前运行的那些进程。**ps**命令列出的是当前进程的快照，就是执行**ps**命令这个时刻的进程，可以使用**top**命令获取动态的进程信息。
