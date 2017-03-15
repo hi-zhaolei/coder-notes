@@ -25,7 +25,7 @@ filter(is(Number), [0, '1', 2, null]) // 0, 2
 
 ## 偏函数 (Partial Function)
 
-针对原始函数的参数，固定一部分并生成一个新的函数
+针对一个函数，固定其中的几个参数值，从而得到一个新的函数
 
 ```
 const sum = (a, b, c) => a + b + c
@@ -38,7 +38,9 @@ partial(1, 3)
 将一个多元函数转变为一元函数的过程。 每当函数被调用时，它仅仅接收一个参数并且返回带有一个参数的函数，直到传递完所有的参数
 
 ```
-
+const sum = (a, b) => a + b
+const currySum = a => b => a + b
+currySum(1)(2)
 ```
 
 ## 自动柯里化 (Auto Currying)
@@ -46,6 +48,8 @@ partial(1, 3)
 lodash，understore 和 ramda 有 curry 函数可以自动完成柯里化
 
 ## 反柯里化 (Reverse Currying)
+
+
 
 ## 函数组合 (Function Composing)
 

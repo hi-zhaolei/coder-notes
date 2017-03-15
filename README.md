@@ -6,6 +6,12 @@
 
 [JavaScript](https://www.kancloud.cn/dennis/tgjavascript/241801)
 
+[DOM](./notes/Front-End/DOM.md)
+
+[BOM](./notes/Front-End/BOM.md)
+
+[Ajax](./notes/Front-End/ajax.md)
+
 [HTML5](./notes/Front-End/html5.md)
 
 [Babel](./notes/Front-End/babel.md)
@@ -16,12 +22,15 @@
 
 [函数式编程](./notes/Front-End/functional-programming.md)
 
+[设计模式](./notes/Front-End/design-mode.md)
 
 ## 后端
 
 ## 网络
 
-[http](./notes/Network/http.md)
+[HTTP](./notes/Network/http.md)
+
+[HTTPS](./notes/Network/https.md)
 
 ## 服务端
 
