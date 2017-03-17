@@ -178,5 +178,161 @@ ontimeout方法再**ajax**请求超时时出发，通过它可以在**ajax**请�
 
 实际上, 一次**ajax**请求, 并非所有的部分都是异步的, 至少"readyState==1"的**onreadystatechange**回调以及**onloadstart**回调就是同步执行的
 
+## Axios
+
+短小精悍的http库
+
+* Axios支持node, jquery并不支持.
+* Axios基于promise语法, jq3.0才开始全面支持.
+* Axios短小精悍, 更加适合http场景, jquery大而全, 加载较慢.
+
+[Axios](http://www.bootcdn.cn/axios/readme/)
+
+## Ajax跨域
+
+### CORS
+
+CORS是一个W3C(World Wide Web)标准，全称是跨域资源共享(Cross-origin resource sharing). 它允许浏览器向跨域服务器发出异步http请求，客服ajax受同源策略的限制. 实际上，浏览器并不会拦截不合法的跨域请求，而是拦截他们的响应，因此即使请求不合法，很多时候服务器依然受到了请求. 但https网站下不允许发送http异步请求.
+
+[跨域请求](../../img/ajax2.jpg)
+
+### CORS headers
+
+#### HTTP Response Header
+
+* Access-Control-Allow-Origin: 指定允许哪些源的网页发送请求通知
+* Access-Control-Allow-Credentials: 指定是否允许cookie发送
+* Access-Control-Allow-Methods: 指定允许哪些请求方法.
+* Access-Control-Allow-Headers: 指定允许哪些常规的头域字段, 比如说 Content-Type.
+* Access-Control-Expose-Headers: 指定允许哪些额外的头域字段, 比如说 X-Custom-Header. CORS请求时, xhr.getResponseHeader() 方法默认只能获取6个基本字段: `Cache-Control`、`Content-Language`、`Content-Type`、`Expires`、`Last-Modified`、`Pragma`. 如果需要获取其他字段, 就需要在Access-Control-Expose-Headers 中指定.
+* Access-Control-Max-Age: 指定preflight OPTIONS请求的有效期, 单位为秒.
+
+#### HTTP Request Header
+
+* Access-Control-Request-Method: 告知服务器,浏览器将发送哪种请求, 比如说POST.
+* Access-Control-Request-Headers: 告知服务器, 浏览器将包含哪些额外的头域字段.
+
+#### refusal headers
+
+以下所有的header name 是被拒绝的
+
+* Accept-Charset
+* Accept-Encoding
+* Access-Control-Request-Headers
+* Access-Control-Request-Method
+* Connection
+* Content-Length
+* Cookie
+* Cookie2
+* Date
+* DNT
+* Expect
+* Host
+* Keep-Alive
+* Origin
+* Referer
+* TE
+* Trailer
+* Transfer-Encoding
+* Upgrade
+* Via
+* 包含以Proxy- 或 Sec- 开头的header name
+
+### CORS请求
+
+CORS请求分为两种, 简单请求; 非简单请求.
+
+对于简单请求, 浏览器将发送一次http请求, 同时在Request头域中增加`Origin`字段, 用来标示请求发起的源, 服务器根据这个源采取不同的响应策略. 若服务器认为该请求合法, 那么需要往返回的 HTTP Response 中添加`Access-Control-*`等字段.
+
+对于非简单请求, 比如Method为`POST`且Content-Type值为`application/json`的请求或者Method为`PUT`或`DELETE`的请求, 浏览器将发送两次http请求. 第一次为preflight预检(Method: OPTIONS),主要验证来源是否合法. 值得注意的是:OPTION请求响应头同样需要包含`Access-Control-*`字段等. 第二次才是真正的HTTP请求. 所以服务器必须处理OPTIONS应答(通常需要返回20X的状态码, 否则xhr.onerror事件将被触发).
+
+### 启用CORS
+
+#### HTML
+
+http-equiv 相当于http的响应头, 它回应给浏览器一些有用的信息,以帮助正确和精确地显示网页内容. 如下html将允许任意域名下的网页跨域访问.
+
+```
+<meta http-equiv="Access-Control-Allow-Origin" content="*">
+```
+
+#### 图片
+
+通常, 图片允许跨域访问, 也可以在canvas中使用跨域的图片, 但这样做会污染画布, 一旦画布受污染, 将无法读取其数据.
+
+## Ajax上传文件
+
+先选中一个文件，创建一个上传文件入口`<input type="file" name="file">`
+
+用FormData包裹文件
+```
+let formData = new FormData()
+formData.append('file', document.getElementsByName('file')[0].files[0])
+```
+
+## Ajax请求二进制文件
+
+### FileReader
+
+处理二进制文件主要使用的是H5的FileReader.
+
+PC支持
+
+|  IE  | Edge  |Firefox Chrome|  Safari |  Opera  |
+|:-----|:-----:|:------------:|:-------:|--------:|
+|  10  |  12   |      3.6     |    6    |    6    |
+
+Mobile支持
+
+| IOS Safari | Opera Mini | Android Browser | Chrome/Android | UC/Android |
+|:-----------|:----------:|:---------------:|:--------------:|-----------:|
+|     7.1     |     -     |       4       |       53        |     11      |
+
+#### API
+
+属性/方法名称 | 描述 |
+------------|-----|
+error       |表示读取文件期间发生的错误.|
+readyState  |表示读取文件的状态.默认有三个值:0表示文件还没有加载;1表示文件正在读取;2表示文件读取完成.|
+result      |读取的文件内容.|
+abort()     |取消文件读取操作, 此时readyState属性将置为2.|
+readAsArrayBuffer() |读取文件(或blob对象)为类型化数组(ArrayBuffer), 类型化数组允许开发者以数组下标的方式, 直接操作内存, 由于数据以二进制形式传递, 效率非常高.|
+readAsDataURL() |读取文件(或blob对象)为base64编码的URL字符串, 与window.URL.createObjectURL方法效果类似.|
+readAsText()    |读取文件(或blob对象)为文本字符串.|
+onload()  |文件读取完成时的事件回调, 默认传入event事件对象. 该回调内, 可通过this.result 或 event.target.result获取读取的文件内容.|
+
+```
+img.src = window.URL.createObjectURL(blob);//这里blob依然占据着内存
+window.URL.revokeObjectURL(img.src);//释放内存
+// or
+var reader = new FileReader();
+reader.readAsDataURL(blob);//FileReader将返回base64编码的data-uri对象
+```
+
+## pajax
+
+pajax 就是 ajax+history.pushState 组合的一种技术. 使用它便可以无刷新通过浏览器前进和后退来改变页面内容.
+
+### API
+
+history.pushState(obj, title, url) 表示往页面history末尾新增一个历史项(history entry), 此时history.length会+1.
+
+history.replaceState(obj, title, url) 表示替换当前历史项为新的历史项. 此时history.length保持不变.
+
+window.onpopstate 仅在浏览器前进和后退时触发(history.go(1), history.back() 及location.href="xxx" 均会触发), 此时可在history.state中拿到刚刚塞进去的state, 即obj对象(其他数据类型亦可).
+
+[ajax与HTML5 history pushState/replaceState实例 « 张鑫旭-鑫空间-鑫生活 .](http://www.zhangxinxu.com/wordpress/2013/06/html5-history-api-pushstate-replacestate-ajax/)
+
+## ajax缓存
+
+## ajax错误
+
+只要是ajax请求收到了http状态码, 便不会进入到错误捕获里.(Chrome中407响应头除外)
+
+## ajax调试
+
+## 编码
+
+XMLHttpRequest 返回的数据默认的字符编码是utf-8, post方法提交数据默认的字符编码也是utf-8. 若页面编码为gbk等中文编码, 那么就会产生乱码.
 
 
