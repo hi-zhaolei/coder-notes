@@ -1,5 +1,13 @@
 # Linux命令
 
+## 查看系统信息
+
+`uname -a`  电脑以及操作系统的相关信息
+
+`cat /proc/version` 运行的内核版本
+
+`cat /etc/issue`    发行版本信息
+
 ## curl
 
 网络请求, 相关的还有 traceroute, dig 等

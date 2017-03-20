@@ -37,6 +37,8 @@ partial(1, 3)
 
 将一个多元函数转变为一元函数的过程。 每当函数被调用时，它仅仅接收一个参数并且返回带有一个参数的函数，直到传递完所有的参数
 
+缩小适用范围，创建一个针对性更强的函数
+
 ```
 const sum = (a, b) => a + b
 const currySum = a => b => a + b
@@ -49,11 +51,28 @@ lodash，understore 和 ramda 有 curry 函数可以自动完成柯里化
 
 ## 反柯里化 (Reverse Currying)
 
+从字面讲，意义和用法跟函数柯里化相比正好相反，扩大适用范围，创建一个应用范围更广的函数。使本来只有特定对象才适用的方法，扩展到更多的对象
 
+```
+let push = (obj, ...args) => Array.prototype.push.apply(obj, args)
+push({}, 'a', 'b')
+// { 
+//  0: a
+//  1: b
+//  length: 2
+// }
+```
 
 ## 函数组合 (Function Composing)
 
 接收多个函数作为参数，从右到左，一个函数的输入为另一个函数的输出
+
+```
+const compose = (f, g) => a => f(g(a))
+//
+const calNum = compose( n => n%2, n => n - 1 )
+calNum(101) // 0
+```
 
 ## Continuation
 
