@@ -70,7 +70,7 @@ push({}, 'a', 'b')
 ```
 const compose = (f, g) => a => f(g(a))
 //
-const calNum = compose( n => n%2, n => n - 1 )
+const calNum = compose( n => n % 2, n => n - 1 )
 calNum(101) // 0
 ```
 
@@ -80,27 +80,62 @@ calNum(101) // 0
 
 ## 纯函数 (Purity)
 
-输出仅由输入决定，且不产生副作用
+输出仅由输入决定，且不产生副作用, 不依赖外部状态(使用外部变量), 不改变外部状态(修改外部变量)
+
+```
+const count = ( a, b ) => a + b
+count(1,2) // 3
+```
 
 ## 副作用 (Side effects)
 
 如果函数与外部可变状态进行交互，则它是有副作用的
 
+```
+let a = 0
+const plus = () => a++
+plus()
+console.log(a) // 1
+```
+
 ## 幂等性 (Idempotent)
 
 如果一个函数执行多次皆返回相同的结果，则它是幂等性的
 
-## Point-Free 风格 (Point-Free Style)
+```
+parseInt(parseInt(parseInt('123')))
+```
+
+## Point-Free Style
 
 定义函数时，不显式地指出函数所带参数。这种风格通常需要柯里化或者高阶函数。也叫 Tacit programming
 
-## 谓词 (Predicate)
+```
+const map = fn => list => list.map(fn)
+const add = a => b => a + b
+//
+const incrementAll = map(add(1))
+```
+
+## 判言 (Predicate)
 
 根据输入返回 true 或 false。通常用在 Array.prototype.filter 的回调函数中
+
+```
+const predicate = a => a > 2
+[1,2,3,4,5].filter(predicate)
+```
 
 ## 契约 (Contracts)
 
 契约保证了函数或者表达式在运行时的行为。当违反契约时，将抛出一个错误
+
+```
+const contracts = (n) => {
+  if( toString.call(n) === '[Object Number]' ) return true;
+  throw new Error('It`s not a number')
+}
+```
 
 ## 范畴 (Category)
 
