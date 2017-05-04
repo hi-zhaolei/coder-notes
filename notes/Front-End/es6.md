@@ -1,5 +1,59 @@
 # JavaScript ES6
 
+## File
+
+继承自**Blob**对象, 在 Blob 对象基础上增加了和 File 相关的属性.
+**Blob**对象代表浏览器所能读取的一组原始二进制流.
+
+### 实例化
+
+`new File( binarydata, filename, options)`
+实例化一个File类，需要三个参数，**binarydata**文件二进制数据，**filename**文件名，**options**文件配置，比如文件类型
+
+## FileReader
+
+### 方法
+
+#### readAsBinaryString(file)
+
+读取文件内容，读取结果为一个 binary string。文件每一个 byte 会被表示为一个 [0..255] 区间内的整数。函数接受一个 File 对象作为参数。
+
+#### readAsText(file)
+
+读取文件内容，读取结果为一串代表文件内容的文本。函数接受一个 File 对象以及文本编码名称作为参数。
+
+#### readAsDataURL(file)
+
+读取文件内容，读取结果为一个 data: 的 URL。DataURL 由 RFC2397 定义，具体可以参考 http://www.ietf.org/rfc/rfc2397.txt。
+
+### 事件
+
+#### onloadstart
+
+文件读取开始时触发。
+
+#### onprogress
+
+当读取进行中时定时触发。事件参数中会含有已读取总数据量。
+
+#### onabort
+
+当读取被中止时触发。
+
+#### onerror
+
+当读取出错时触发。
+
+#### onload
+
+当读取成功完成时触发。
+
+#### onloadend
+
+当读取完成时，无论成功或者失败都会触发。
+
+## FormData
+
 ## Array
 
 ### 静态方法
