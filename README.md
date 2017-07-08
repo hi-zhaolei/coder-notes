@@ -28,6 +28,8 @@
 
 [设计模式](./notes/Front-End/design-mode.md)
 
+[正则](./notes/Front-End/RegExp.md)
+
 ## 后端
 
 [Nodejs](./notes/Back-End/node.md)
