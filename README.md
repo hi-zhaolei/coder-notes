@@ -14,6 +14,8 @@
 
 [HTML5](./notes/Front-End/html5.md)
 
+[CSS3](./notes/Front-End/css3.md)
+
 [Babel](./notes/Front-End/babel.md)
 
 [JavaScript ES6](./notes/Front-End/es6.md)
