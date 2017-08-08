@@ -1,5 +1,38 @@
 # JavaScript
 
+## URL编码
+
+网络标准[RFC 1738](http://www.ietf.org/rfc/rfc1738.txt)规定:
+
+> "...Only alphanumerics [0-9a-zA-Z], the special characters "$-_.+!*'()," [not including the quotes - ed], and reserved characters used for their reserved purposes may be used unencoded within a URL."
+> "只有字母和数字[0-9a-zA-Z]、一些特殊符号"$-_.+!*'(),"[不包括双引号]、以及某些保留字，才可以不经过编码直接用于URL。"
+
+javascript语言用于编码的函数，一共有三个
+
+### escape
+
+返回一个字符的Unicode
+
+除了ASCII字母、数字、标点符号"@ * _ + - . /"以外，对其他所有字符进行编码。在\u0000到\u00ff之间的符号被转成%xx的形式，其余符号被转成%uxxxx的形式。对应的解码函数是unescape()。
+
+已不提倡使用，并不能直接用于URL编码
+
+无论网页的原始编码是什么，一旦被Javascript编码，就都变为unicode字符。也就是说，Javascipt函数的输入和输出，默认都是Unicode字符。
+
+escape()不对"+"编码。但是我们知道，网页在提交表单的时候，如果有空格，则会被转化为+字符。服务器处理数据的时候，会把+号处理成空格。所以，使用的时候要小心。
+
+### encodeURI
+
+Javascript中真正用来对URL编码的函数。对应的解码函数是decodeURI()。
+
+除了常见的符号以外，对其他一些在网址中有特殊含义的符号"; / ? : @ & = + $ , #"，也不进行编码。编码后，它输出符号的utf-8形式，并且在每个字节前加上%。不对单引号'编码
+
+## encodeURIComponent
+
+与encodeURI()的区别是，它用于对URL的组成部分进行个别编码，而不用于对整个URL进行编码。"; / ? : @ & = + $ , #"，这些在encodeURI()中不被编码的符号，在encodeURIComponent()中统统会被编码。
+
+解码函数是decodeURIComponent()。
+
 ## 浮点数
 
 Javascript采用了IEEE-745浮点数表示法
