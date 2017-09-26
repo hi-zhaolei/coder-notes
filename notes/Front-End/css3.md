@@ -1,51 +1,214 @@
 # CSS3
 
-- [CSS3](#css3)
-  - [选择器](#)
-  - [动画](#)
-    - [Transition](#transition)
-      - [transition-property](#transition-property)
-      - [transition-duration](#transition-duration)
-      - [transition-delay](#transition-delay)
-      - [transition-timing-function](#transition-timing-function)
-    - [Transform](#transform)
-      - [浏览器支持](#)
-    - [Animation](#animation)
-  - [边框](#)
-    - [border-radius](#border-radius)
-      - [语法](#)
-      - [浏览器支持](#)
-    - [box-shadow](#box-shadow)
-      - [浏览器支持](#)
-    - [border-image](#border-image)
-    - [浏览器支持](#)
-  - [背景](#)
-    - [background-clip](#background-clip)
-    - [background-origin](#background-origin)
-    - [background-size](#background-size)
-    - [background-break](#background-break)
-  - [文字](#)
-    - [word-wrap](#word-wrap)
-    - [text-overflow](#text-overflow)
-    - [text-shadow](#text-shadow)
-    - [text-decoration](#text-decoration)
-      - [text-fill-color](#text-fill-color)
-      - [text-stroke-color](#text-stroke-color)
-      - [text-stroke-width](#text-stroke-width)
-  - [渐变](#)
-    - [linear-gradient(线性渐变)](#linear-gradient)
-    - [radial-gradient(径向渐变)](#radial-gradient)
-  - [@font-face特性](#font-face)
-  - [多列布局](#)
-    - [column-count](#column-count)
-    - [column-gap](#column-gap)
-    - [column-rule](#column-rule)
-  - [用户界面](#)
-    - [resize](#resize)
-    - [box-sizing](#box-sizing)
-      - [content-box](#content-box)
-      - [border-box](#border-box)
-    - [outline-offset](#outline-offset)
+## 盒模型(Box Model)
+
+盒模型范围包括margin, border, padding, content, 根据 W3C 的规范，元素内容占据的空间是由 width 属性设置的，而内容周围的 padding 和 border 值是另外计算的。
+
+标准盒模型width只包含content部分，不包含其他
+
+![标准盒模型](http://image79.360doc.com/DownloadImg/2014/10/1001/45984178_1.jpeg)
+
+一旦为页面设置了恰当的 DTD，大多数浏览器都会按照上面的图示来呈现内容。然而 IE 5 和 6 的呈现却是不正确的。
+
+IE5.X 和 6 在怪异模式中使用自己的非标准模型。width包含content, padding和border
+
+![](http://image79.360doc.com/DownloadImg/2014/10/1001/45984178_2.jpeg)
+
+### box-sizing
+
+box-sizing 属性允许您以特定的方式定义匹配某个区域的特定元素。
+
+|||
+|------|----------|
+|默认值：|  content-box |
+|继承性：|  no |
+|版本：| CSS3 |
+|JavaScript 语法：|  object.style.boxSizing="border-box" |
+
+`box-sizing: content-box|border-box|inherit;`
+
+| 值 | 描述 |
+|----|-----|
+|content-box |这是由 CSS2.1 规定的宽度高度行为。宽度和高度分别应用到元素的内容框。|
+|border-box  |元素设定的宽度和高度决定了元素的边框盒。为元素指定的任何内边距和边框都将在已设定的宽度和高度内进行绘制。|
+|inherit | 规定应从父元素继承 box-sizing 属性的值。|
+
+## flex box
+
+Flex 为"弹性布局"，用来为盒状模型提供最大的灵活性。任何一个容器都可以指定为 Flex 布局。
+
+```css
+<!-- 块状 -->
+.box{
+  display: flex;
+}
+<!-- 行内 -->
+.box{
+  display: inline-flex;
+}
+```
+
+设为 Flex 布局以后，子元素的float、clear和vertical-align属性将失效。
+
+### 容器属性
+
+#### flex-direction
+
+flex-direction属性决定主轴的方向（即项目的排列方向）。
+
+```css
+.box {
+  flex-direction: row | row-reverse | column | column-reverse;
+}
+```
+
+*row（默认值）：主轴为水平方向，起点在左端。
+*row-reverse：主轴为水平方向，起点在右端。
+*column：主轴为垂直方向，起点在上沿。
+*column-reverse：主轴为垂直方向，起点在下沿。
+
+#### flex-wrap
+
+默认情况下，项目都排在一条线（又称"轴线"）上。flex-wrap属性定义，如果一条轴线排不下，如何换行。
+
+```css
+.box{
+  flex-wrap: nowrap | wrap | wrap-reverse;
+}
+```
+
+nowrap（默认）：不换行。
+
+![](http://www.ruanyifeng.com/blogimg/asset/2015/bg2015071007.png)
+
+wrap：换行，第一行在上方。
+
+![](http://www.ruanyifeng.com/blogimg/asset/2015/bg2015071008.jpg)
+
+wrap-reverse：换行，第一行在下方。
+
+![](http://www.ruanyifeng.com/blogimg/asset/2015/bg2015071009.jpg)
+
+#### flex-flow
+
+flex-flow属性是flex-direction属性和flex-wrap属性的简写形式，默认值为row nowrap。
+
+```css
+.box {
+  flex-flow: <flex-direction> || <flex-wrap>;
+}
+```
+
+#### justify-content
+
+justify-content属性定义了项目在主轴上的对齐方式。
+
+```css
+.box {
+  justify-content: flex-start | flex-end | center | space-between | space-around;
+}
+```
+
+具体对齐方式与轴的方向有关。下面假设主轴为从左到右。
+
+*flex-start（默认值）：左对齐
+*flex-end：右对齐
+*center： 居中
+*space-between：两端对齐，项目之间的间隔都相等。
+*space-around：每个项目两侧的间隔相等。所以，项目之间的间隔比项目与边框的间隔大一倍。
+
+#### align-items
+
+align-items属性定义项目在交叉轴上如何对齐。
+
+具体的对齐方式与交叉轴的方向有关，下面假设交叉轴从上到下。
+
+*flex-start：交叉轴的起点对齐。
+*flex-end：交叉轴的终点对齐。
+*center：交叉轴的中点对齐。
+*baseline: 项目的第一行文字的基线对齐。
+*stretch（默认值）：如果项目未设置高度或设为auto，将占满整个容器的高度。
+
+#### align-content
+
+align-content属性定义了多根轴线的对齐方式。如果项目只有一根轴线，该属性不起作用。
+
+```css
+.box {
+  align-content: flex-start | flex-end | center | space-between | space-around | stretch;
+}
+```
+
+*flex-start：与交叉轴的起点对齐。
+*flex-end：与交叉轴的终点对齐。
+*center：与交叉轴的中点对齐。
+*space-between：与交叉轴两端对齐，轴线之间的间隔平均分布。
+*space-around：每根轴线两侧的间隔都相等。所以，轴线之间的间隔比轴线与边框的间隔大一倍。
+*stretch（默认值）：轴线占满整个交叉轴。
+
+### 项目属性
+
+#### order
+
+order属性定义项目的排列顺序。数值越小，排列越靠前，默认为0。
+
+```css
+.item {
+  order: <integer>;
+}
+```
+
+#### flex-grow
+
+flex-grow属性定义项目的放大比例，默认为0，即如果存在剩余空间，也不放大。
+
+```css
+.item {
+  flex-grow: <number>; /* default 0 */
+}
+```
+
+#### flex-shrink
+
+flex-shrink属性定义了项目的缩小比例，默认为1，即如果空间不足，该项目将缩小。
+
+```css
+.item {
+  flex-shrink: <number>; /* default 1 负值无效*/
+}
+```
+
+#### flex-basis
+
+flex-basis属性定义了在分配多余空间之前，项目占据的主轴空间（main size）。浏览器根据这个属性，计算主轴是否有多余空间。它的默认值为auto，即项目的本来大小。
+
+```css
+.item {
+  flex-basis: <length> | auto; /* default auto */
+}
+```
+
+#### flex
+
+flex属性是flex-grow, flex-shrink 和 flex-basis的简写，后两个属性可选。建议优先使用这个属性，而不是单独写三个分离的属性，因为浏览器会推算相关值。
+
+```css
+.item {
+  flex: none | [ <'flex-grow'> <'flex-shrink'>? || <'flex-basis'> ]  /* default 0 1 auto */
+}
+```
+
+该属性有两个快捷值：auto (1 1 auto) 和 none (0 0 auto)。
+
+#### align-self
+
+align-self属性允许单个项目有与其他项目不一样的对齐方式，可覆盖align-items属性。默认值为auto，表示继承父元素的align-items属性，如果没有父元素，则等同于stretch。
+
+```css
+.item {
+  align-self: auto | flex-start | flex-end | center | baseline | stretch; /*default auto*/
+}
+```
 
 ## 选择器
 
@@ -291,15 +454,15 @@ background-size属性常用来调整背景图片的大小，主要用于设定�
 
 值 | 描述
 --|---
-length | 
+length |
 设置背景图像的高度和宽度。
 第一个值设置宽度，第二个值设置高度。
 如果只设置一个值，则第二个值会被设置为 "auto"。
-percentage | 
+percentage |
 以父元素的百分比来设置背景图像的宽度和高度。
 第一个值设置宽度，第二个值设置高度。
 如果只设置一个值，则第二个值会被设置为 "auto"。
-cover | 
+cover |
 把背景图像扩展至足够大，以使背景图像完全覆盖背景区域。
 背景图像的某些部分也许无法显示在背景定位区域中。
 contain | 把图像图像扩展至最大尺寸，以使其宽度和高度完全适应内容区域。

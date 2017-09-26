@@ -1,5 +1,9 @@
 # JavaScript
 
+## prototype
+
+
+
 ## URL编码
 
 网络标准[RFC 1738](http://www.ietf.org/rfc/rfc1738.txt)规定:
