@@ -1,5 +1,174 @@
 # JavaScript ES6
 
+## 迭代器和for-of循环
+
+ES6引入了新的for-of循环语法
+
+```js
+for (var value of myArray) {
+  console.log(value);
+}
+```
+
+1.这是最简洁、最直接的遍历数组元素的语法
+2.这个方法避开了for-in循环的所有缺陷
+3.与forEach()不同的是，它可以正确响应break、continue和return语句
+
+for-in循环用来遍历对象属性。
+for-of循环用来遍历数组，大多数类数组对象，字符串，Map和Set对象。
+
+事实上，for-of 循环语句是通过迭代器方法调用来遍历的，各种数据集合只有是存在迭代器方法，任意类型的数据结构都可以被 for-of 遍历。
+
+调用普通函数后会立即开始运行，直到遇到return或抛出异常时才退出执行。
+
+调用生成器函数并非立即执行，而是返回一个已暂停的生成器对象。每当调用生成器对象的.next()方法时，函数调用将其自身解冻并一直运行到下一个yield表达式，再次暂停。
+
+## 生成器(Generator)
+
+普通函数使用function声明，而生成器函数使用function*声明。
+
+在生成器函数内部，有一种类似return的语法：关键字yield。
+普通函数只可以return一次，而生成器函数可以yield多次。在生成器的执行过程中，遇到yield表达式立即暂停，后续可恢复执行状态。
+
+利用 Generator 可以实现 for-of 循环需要的迭代器。
+编写生成器函数遍历这个对象，运行时yield每一个值。然后将这个生成器函数作为这个对象的[Symbol.iterator]方法。
+
+## 模版字符串
+
+一种新型的字符串字面量语法，使用反撇号字符 ` 代替普通字符串的引号 ' 或 " 。
+它为JavaScript提供了一种简单的、更加美观、更加方便的字符串插值功能。
+
+1.模板占位符中的代码可以是任意JavaScript表达式，甚至是嵌套另一个模版。
+2.占位符中的代码如果不是字符串，将会被 toString() 。
+3.模版字符串中的 $ 、 { 、 ` 需要 \ 转义才能正确显示。
+4.不会自动转义特殊字符，为了避免跨站脚本漏洞，应当对非置信数据进行特殊处理。
+5.模板字符串可以多行书写，所有的空格、新行、缩进，都会原样输出在生成的字符串中。
+
+## 不定参数和默认参数值
+
+```js
+function (str='abc', ...args) {
+  // variable`s default value is 'abc'
+  // old time use args = Array.prototype.slice.call(arguments, 1)
+  // now just use args immediately
+}
+```
+
+## 解构赋值(Destructuring)
+
+### 数组解构
+
+允许你使用类似数组或对象字面量的语法将数组和对象的属性赋给各种变量。
+
+```js
+// old time
+const first = array[0];
+const second = array[1];
+const third = array[2];
+// now!
+const [first, second, third] = someArray;
+// use grammar
+// [keyword] [ variable1, variable2, ..., variableN ] = array;
+```
+
+可以对任意深度的嵌套数组进行解构
+
+```js
+const [ a, [ b, [c]]] = [1, [2, [3]]];
+// a -> 1
+// b -> 2
+// c -> 3
+```
+
+可以在对应位留空来跳过被解构数组中的某些元素
+
+```js
+const [,,third] = ["foo", "bar", "baz"];
+// third -> baz
+```
+
+可以通过“不定参数”模式捕获数组中的所有尾随元素
+
+```js
+const [head, ...tail] = [1, 2, 3, 4];
+// head -> 1
+// tail -> [2,3,4]
+```
+
+当访问空数组或越界访问数组时，最终得到的结果都是：undefined。
+
+```js
+const [ missing ] = [];
+// missing -> undefined
+```
+
+数组解构赋值的模式同样适用于任意迭代器
+
+```js
+function* iterator () {
+  for(let i = 0; i < 5; i++)
+    yield i + 1;
+}
+const [ first, second ] = iterator()
+// first -> 1
+// second -> 2
+```
+
+### 对象解构
+
+通过解构对象可以把它的每个属性与不同的变量绑定，首先指定被绑定的属性，然后紧跟 : 和一个要解构的变量。
+
+```js
+const person = { name: "leo" };
+const { name: nameA } = person;
+// nameA -> 'leo'
+```
+
+当属性名与变量名一致时，可以省略变量名
+
+```js
+const person = { name: "leo" };
+const { name } = person;
+// name -> 'leo'
+```
+
+可以随意嵌套并进一步组合对象解构
+
+```js
+const person = { name: ["leo"] };
+const { name: [nameA] } = person;
+// nameA -> 'leo'
+```
+
+解构一个未定义的属性时，得到的值为undefined
+
+```js
+const { missing } = {}
+// missing -> undefined
+```
+
+解构对象并赋值给变量时，如果你已经声明或不打算声明这些变量，需要将整个表达式用一对小括号包裹阻止报错。
+
+```js
+let name;
+{ name } = { name: 'leo' };
+// Syntax error
+({ name } = { name: 'leo' });
+// name -> 'leo'
+```
+
+无法解构 null 或 undefined ，因为被解构的值需要被强制转换为对象，而 null 和 undefined 是不可以的。
+
+解构的属性未定义时你可以提供一个默认值
+
+```js
+const { name = 'leo', name1: nameA = 'zhao' } = {};
+// name -> 'leo'
+// nameA -> 'zhao'
+```
+
+## 箭头函数(=>)
+
 ## File
 
 继承自**Blob**对象, 在 Blob 对象基础上增加了和 File 相关的属性.
