@@ -18,7 +18,7 @@ null类型的默认值是null，表示一个空对象指针，类型为object。
 
 ### Number
 
-两种表示形式，整数和浮点数
+两种表示形式，整数和
 
 #### 整数
 
@@ -210,11 +210,83 @@ Javascript中真正用来对URL编码的函数。对应的解码函数是decodeU
 
 解码函数是decodeURIComponent()。
 
-## 浮点数
+## 浮点数表示法
 
-Javascript采用了IEEE-745浮点数表示法
+Javascript采用了IEEE-745表示法
 这是一种二进制表示法，可以精确地表示分数1/2, 1/8
-我们常用的分数都是十进制分数1/10，1/100等，二进制浮点数表示法并不能精确的表示类似这样的简单的数字
+我们常用的分数都是十进制分数1/10，1/100等，二进制表示法并不能精确的表示类似这样的简单的数字
+
+## Javascript同步与异步
+
+Javascript语言的执行环境是"单线程"（single thread）。
+
+所谓"单线程"，就是指一次只能完成一件任务。如果有多个任务，就必须排队，前面一个任务完成，再执行后面一个任务。
+
+这种模式的好处是实现起来比较简单，执行环境相对单纯；坏处是只要有一个任务耗时很长，后面的任务都必须排队等着，会拖延整个程序的执行。
+
+为了解决这个问题，Javascript语言将任务的执行模式分成两种：同步（Synchronous）和异步（Asynchronous）。
+
+所谓"同步模式"就是上一段的模式，后一个任务等待前一个任务结束，然后再执行，程序的执行顺序与任务的排列顺序是一致的；
+"异步模式"则完全不同，程序的执行顺序与任务的排列顺序是不一致的、异步的。
+
+### 异步编程方法
+
+#### 回调函数
+
+异步编程最基本方法
+
+```js
+function fn1(callback) {
+  setTimeout(() => {
+    // fn1 do something
+    callback()
+  }, 1000);
+}
+fn1(fn2)
+```
+
+回调函数的优点是简单、容易理解和部署，
+缺点是不利于代码的阅读和维护，各个部分之间高度耦合（Coupling），流程会很混乱。
+
+#### Promises对象
+
+Promises对象是CommonJS工作组提出的一种规范，目的是为异步编程提供统一接口。
+
+基于回调函数的一种异步编程思想
+
+```js
+task().then(newTask)
+```
+
+这样写的优点在于，回调函数变成了链式写法，程序的流程可以看得很清楚，而且有一整套的配套方法，可以实现许多强大的功能。
+如果一个任务已经完成，再添加回调函数，该回调函数会立即执行。缺点是编写和理解，都相对比较难。
+
+#### 事件监听
+
+事件监听也是事件驱动模式，任务的执行不取决于代码的顺序，而取决于某个事件是否发生。
+
+```js
+event.on('done', f2);
+// 123
+event.trigger('done')
+```
+
+事件驱动优点是比较容易理解，可以"去耦合"（Decoupling），有利于实现模块化。缺点是程序运行流程会不清晰。
+
+#### 观察者模式
+
+基于事件监听的一种异步编程思想
+
+假设存在一个"信号中心"，某个任务执行完成，就向信号中心"发布"（publish）一个信号，其他任务可以向信号中心"订阅"（subscribe）这个信号。这就叫做"发布/订阅模式"（publish-subscribe pattern），又称"观察者模式"（observer pattern）。
+
+```js
+// 信号中心发布信号
+signalCenter.publish('done', data);
+// 任务订阅信号
+task.subscribe('done', fn)
+```
+
+这种方法的性质与"事件监听"类似，但是明显优于后者。因为我们可以通过查看"消息中心"，了解存在多少信号、每个信号有多少订阅者，从而监控程序的运行。
 
 ## 典型错误
 
@@ -229,28 +301,28 @@ Javascript采用了IEEE-745浮点数表示法
 
 其它基于 webkit 的浏览器，比如 Safari ，给出的错误格式跟 Chrome 很类似。Firefox 也类似，但是不总包含第一部分，最新版本的 IE 也给出比 Chrome 简单的错误 - 但是在这里，简单并不总代表好。
 
-###`Uncaught TypeError: undefined is not a function`
+### `Uncaught TypeError: undefined is not a function`
 
 相关错误：
 
 `number is not a function, object is not a function, string is not a function, Unhandled Error: ‘foo’ is not a function, Function Expected`
 
 当尝试调用一个像方法的值时，这个值并不是一个方法。比如：
-```
+
+```js
 var foo = undefined;
 foo();
 ```
 
 如果你尝试调用一个对象的方法时，你输错了名字，这个典型的错误很容易发生。
 
-```
+```js
 var x = document.getElementByID('foo');
 ```
 
 由于对象的属性不存在，默认是`undefined`，以上代码将导致这个错误。尝试调用一个像方法的数字，“number is not a function” 错误出现。
 
 **如何修复错误：**确保方法名正确。这个错误的行号将指出正确的位置。
-
 
 ### `Uncaught ReferenceError: Invalid left-hand side in assignment`
 
@@ -268,7 +340,6 @@ var x = document.getElementByID('foo');
 
 **如何修复错误：**确保没有给函数结果赋值，或者给 this 关键字赋值。
 
-
 ### `Uncaught TypeError: Converting circular structure to JSON`
 
 相关错误：
@@ -277,7 +348,7 @@ var x = document.getElementByID('foo');
 
 把循环引用的对象，传给`JSON.stringify`总会引起错误。
 
-```
+```js
 var a = { };
 var b = { a: a };
 a.b = b;
@@ -287,7 +358,6 @@ JSON.stringify(a);
 由于以上的`a`和`b`循环引用彼此，结果对象无法转换成`JSON`。
 
 **如何修复错误：** 移除任何想转换成`JSON`的对象中的循环引用。
-
 
 ### `Unexpected token ;`
 
@@ -300,8 +370,8 @@ JavaScript 解释器预期的东西没有被包含。不匹配的圆括号或方
 **如何修复错误：** 有时错误出现的行号并不准确，因此很难修复。
 
 * `[ ]` `{ }` `( )` 这几个符号不配对常常导致出错。检查所有的圆括号和方括号是否配对。行号指出的不仅是问题字符。
-* `Unexpected / `跟正则表达式有关。此时行号通常是正确的。
-* `Unexpected ; `对象或者数组字面量里面有个；通常引起这个错误，或者函数调用的参数列表里有个分号。此时的行号通常也是正确的。
+* `Unexpected/`跟正则表达式有关。此时行号通常是正确的。
+* `Unexpected;`对象或者数组字面量里面有个；通常引起这个错误，或者函数调用的参数列表里有个分号。此时的行号通常也是正确的。
 
 ### `Uncaught SyntaxError: Unexpected token ILLEGAL`
 
@@ -313,7 +383,6 @@ JavaScript 解释器预期的东西没有被包含。不匹配的圆括号或方
 
 **如何修复错误：** 确保所有的字符串都有结束的引号。
 
-
 ### `Uncaught TypeError: Cannot read property ‘foo’ of null, Uncaught TypeError: Cannot read property ‘foo’ of undefined`
 
 相关错误：
@@ -322,13 +391,12 @@ JavaScript 解释器预期的东西没有被包含。不匹配的圆括号或方
 
 尝试读取`null`或者`undefined`，把它当成了对象。例如：
 
-```
+```js
 var someVal = null;
 console.log(someVal.foo);
 ```
 
 **如何修复错误：** 通常由于拼写错误导致。检查错误指出的行号附近使用的变量名是否正确。
-
 
 ### `Uncaught TypeError: Cannot set property ‘foo’ of null, Uncaught TypeError: Cannot set property ‘foo’ of undefined`
 
@@ -338,12 +406,12 @@ console.log(someVal.foo);
 
 尝试写入`null`或者`undefined`，把它当成了一个对象。例如：
 
-```
+```js
 var someVal = null;
 someVal.foo = 1;
 ```
-**如何修复错误：** 也是由于拼写错误所致。检查错误指出的行号附近的变量名。
 
+**如何修复错误：** 也是由于拼写错误所致。检查错误指出的行号附近的变量名。
 
 ### `Uncaught RangeError: Maximum call stack size exceeded`
 
@@ -355,7 +423,6 @@ someVal.foo = 1;
 
 **如何修复错误：** 检查递归函数中可能导致无限循环 的`bug`。
 
-
 ### `Uncaught URIError: URI malformed`
 
 相关错误：
@@ -365,7 +432,6 @@ someVal.foo = 1;
 无效的`decodeURIComponent`调用所致。
 
 **如何修复错误：** 按照错误指出的行号，检查`decodeURIComponent`调用，它是正确的。
-
 
 ### `XMLHttpRequest cannot load [http://some/url/](http://some/url/). No ‘Access-Control-Allow-Origin’ header is present on the requested resource`
 
@@ -377,7 +443,6 @@ someVal.foo = 1;
 
 **如何修复：**确保请求的`URL`是正确的，它遵循同源策略 。最好的方法是从代码中找到错误信息指出的`URL`。
 
-
 ### `InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable`
 
 相关错误：
@@ -386,7 +451,7 @@ someVal.foo = 1;
 
 代码调用的方法在当前状态无法调用。通常由`XMLHttpRequest`引起，在方法准备完毕之前调用它会引起错误。
 
-```
+```js
 var xhr = new XMLHttpRequest();
 xhr.setRequestHeader('Some-Header', 'val');
 ```
