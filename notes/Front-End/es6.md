@@ -114,6 +114,116 @@ generator.throw(error) // 报错
 yield* 表达式 // yield*后面的表达式可以通过迭代器进行迭代生成所有的值
 ```
 
+### generator.next
+
+generator.next工作流程
+
+1.generator暂停在yield操作符
+
+2.发送x给这个yield
+
+3.继续执行到下一个yield，return或者throw
+
+    *yield x 导致 next() 返回 {value: x, done: false}
+
+    *return x 导致 next() 返回 {value:x, done:true}
+
+    *throw err 导致 next() 抛出err
+
+### generator能扮演的角色
+
+#### 迭代器(数据生产者)
+
+每一个yield可以通过next()返回一个值，这意味着generators可以通过循环或递归生产一系列的值，
+因为generator对象实现了Iterable接口，generator生产的一系列值可以被ES6中任意支持可迭代对象的结构处理，并且大部分和可迭代对象一起工作的结构会忽略done属性是true的对象的value值
+
+```js
+function* genFunc(){
+    yield 'a';
+    yield 'b';
+    return 'c';
+}
+// for of
+for (const x of genFunc()) {
+    console.log(x);
+}
+// output
+// a
+// b
+
+// 扩展操作符(...)
+const arr = [...genFunc()]; 
+// output
+// ['a', 'b']
+
+// 解构赋值
+const [x, y] = genFunc();
+// output
+// x => 'a', y => 'b'
+```
+
+generator.next可以生产三种类型的值
+
+1.对于可迭代序列中的一项x，它返回 {value:x,done:false}
+
+2.对于可迭代序列的最后一项,明确是return返回的z，它返回{value:z,done:true}
+
+3.对于异常，它抛出这个异常
+
+#### 观察者(数据消费者)
+
+yield可以通过next()接受一个值，这意味着generator变成了一个暂停执行的数据消费者直到通过next()给generator传递了一个新值
+
+作为数据的消费者，generator函数返回的对象也实现了接口Observer
+
+```js
+interface Observer {
+    next(value? : any) : void;
+    return(value? : any) : void;
+    throw(error) : void;
+}
+```
+
+generator暂停执行直到它接受到输入值，这有三种类型的输入，通过以下三种observer方法
+
+##### 通过next()发送值
+
+```js
+function* dataConsumer() {
+    console.log('Started');
+    console.log(`1. ${yield}`); // (A)
+    console.log(`2. ${yield}`);
+    return 'result';
+}
+// create instace
+const genObj = dataConsumer();
+// call genObj.next
+genObj.next()
+// OUTPUT
+// Started
+// { value: undefined, done: false }
+genObj.next('a')
+// OUTPUT
+// 1. a
+//{ value: undefined, done: false }
+genObj.next('b')
+// OUTPUT
+// 2. b
+//{ value: 'result', done: true }
+```
+
+##### return() 和 throw()
+
+return(x) 在 yield的位置执行 return x
+
+throw(x) 在yield的位置执行throw x
+
+return()终止generator
+
+#### 协作程序(数据生产者和消费者)
+
+考虑到generators是可以暂停的并且可以同时作为数据生产者和消费者，不会做太多的工作就可以把generator转变成协作程序(合作进行的多任务)
+
 ## 模版字符串
 
 一种新型的字符串字面量语法，使用反撇号字符 ` 代替普通字符串的引号 ' 或 " 。
@@ -394,8 +504,6 @@ indexOf()方法返回在该数组中第一个找到的元素位置，如果它�
 **callback**参数为**prev**（上一项），**next**（下一项），**index**（索引）和**list**（便利数组对象），需要返回结果，如果没有**return**，生成的数组该项为**undefined**
 **initialValue**prev的初始值，如果为空，则prev是数组第一项
 
-
 #### reduceRight()
 
 实现一个累加器的功能，将数组的每个值（从右到左）将其降低到一个值
-
