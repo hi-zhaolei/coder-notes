@@ -397,6 +397,74 @@ FIXME
 
 ## Promise
 
+## 修饰器
+
+修饰器是一个对类和类方法进行处理的函数。只能用于类和类的方法，不能用于函数，因为存在函数提升。
+
+### 类的修饰
+
+许多面向对象的语言都有修饰器（Decorator）函数，用来修改类的行为。
+
+```js
+@decorator
+class A {}
+
+// 等同于
+
+class A {}
+A = decorator(A) || A;
+```
+
+修饰器函数的第一个参数，就是所要修饰的目标类。
+
+修饰器对类的行为的改变，是代码编译时发生的，而不是在运行时。这意味着，修饰器能在编译阶段运行代码。也就是说，修饰器本质就是编译时执行的函数。
+
+### 方法的修饰
+
+```js
+class Person {
+    @readonly
+    name() {  }
+}
+```
+
+修饰器参数:
+
+第一个参数是类的原型对象，上例是Person.prototype，修饰器的本意是要“修饰”类的实例，但是这个时候实例还没生成，所以只能去修饰原型（这不同于类的修饰，那种情况时target参数指的是类本身）；
+
+第二个参数是所要修饰的属性名，
+
+第三个参数是该属性的描述对象。
+
+```js
+// descriptor对象原来的值如下
+{
+    value: specifiedFunction, //该属性值
+    enumerable: false, //该属性能否被枚举
+    configurable: true, //该属性能否被配置
+    writable: true //该属性能否被修改
+};
+```
+
+如果同一个方法有多个修饰器，会像剥洋葱一样，先从外到内进入，然后由内向外执行
+
+```js
+function dec(id){
+  console.log('evaluated', id);
+  return (target, property, descriptor) => console.log('executed', id);
+}
+
+class Example {
+    @dec(1)
+    @dec(2)
+    method(){}
+}
+// evaluated 1
+// evaluated 2
+// executed 2
+// executed 1
+```
+
 ## ArrayBuffer
 
 ## DataView

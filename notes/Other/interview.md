@@ -34,3 +34,27 @@ Vuex 是一个专为 Vue.js 应用程序开发的状态管理模式。它采用�
 ## 线程
 
 ## Promise
+
+原型链和作用域
+
+## react的生命周期
+
+[react](./react.md)
+
+## react的setState
+
+[react](./react.md)
+
+## react的diff算法
+
+[react](./react.md)
+
+## webrtc的协议
+
+## typescript和javascript的异同
+
+## webpack的原理
+
+## redux or mobx
+
+[redux or mobx](./mobx.md)

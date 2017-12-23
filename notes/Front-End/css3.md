@@ -726,3 +726,114 @@ padding和border被包含在定义的width和height之内。对象的实际宽�
 ### outline-offset
 
 outline-offset属性对轮廓进行偏移，并在超出边框边缘的位置绘制轮廓
+
+## 响应式图片
+
+需要在屏幕像素比不同情况下展示相同清晰度的图片
+
+### CSS方法
+
+#### 媒体查询
+
+只有background中的图片可以使用此方法。
+
+```css
+@media 
+only screen and (-webkit-min-device-pixel-ratio:2),
+only screen and (-min-moz-device-pixel-ratio:2),//版本低于16的Firefox
+only screen and (min-resolution:2dppx),
+only screen and (min-resolution:192dpi){
+  /* ... */
+}
+```
+
+好处是对于不同分辨率的显示器，可以使用不同分辨率的图片。
+
+不足是使用媒体查询多了不少代码
+
+#### resolution
+
+1dppx=96dpi
+
+#### image-set
+
+CSS4的background-image新规范草案image-set
+
+```css
+selector {
+  background-image: url(no-image-set.png);
+  background: image-set(url(foo-lowres.png) 1x,url(foo-highres.png) 2x) center;
+}
+```
+
+不支持image-set的浏览器会解析background-image中的背景图像；
+支持image-set的浏览器就会根据是否为retina屏选择相应的背景图，因此这个方案是可以实现向下兼容的。
+
+### HTML方法
+
+#### img的srcset属性
+
+HTML5推出的属性，srcset可以根据显示器分辨率智能加载最佳显示的图片。
+
+```css
+<img class="image" src="mm-width-128px.jpg" srcset="mm-width-128px.jpg 128w, mm-width-256px.jpg 256w, mm-width-512px.jpg 512w" sizes="(max-width: 360px) 340px, 128px">
+```
+
+1.srcset
+
+指向提供的图片资源，为用户提供了一种内嵌简单的分辨率媒体查询功能。
+
+w是一个衡量宽度的标识符，一定要对应图片的真实宽度，如果w值和图片宽度不对应时，实际渲染是会有问题的。
+
+2.sizes
+
+指定图片宽度，不能使用百分比, 可使用
+
+*px，
+*vw(100vw就是占满父容器宽度，所以要求图片居中宽度为百分比的地方可以使用vw单位，如 sizes=80vw),
+*calc运算(适用于两边距离固定的情况，如sizes="calc(100vw-20px)")，
+*媒体查询(如sizes="(min-width:360px) 340px,128px")。
+
+#### picture标签
+
+\<picture\>是HTML5一个新的元素。它允许你放置多个source标签，以指定不同的图像文件名，进而根据不同的条件进行加载。
+
+它可以让你根据以下条件加载完全不同的图像：
+
+1.媒体特性结果如：视口的当前高度(viewport height)，宽度(width)，方向(orientation)。
+
+2.像素密度
+
+\<picture\>基本工作步骤如下：
+
+1.创建\<picture\>\</picture\>标签。
+2.在这些标签内创建一个你想用来执行任何一个特性的\<source\>元素。
+3.添加一个media属性，用来包含你想要的特性，如视口的当前高度(viewport height)，宽度(width)，方向(orientation)等。
+4.添加一个srcset属性与相应的图像文件名相匹配，进行加载。如果你想提供不同的像素密度，例如Retina显示屏，你可以添加额外的文件名到你的srcset属性中，
+5.添加一个回退的\<img\>元素。
+
+```css
+<picture>
+  <source srcset="smaller.jpg" media="(max-width: 768px)">
+  <source srcset="default.jpg">
+  <img srcset="default.jpg" alt="My default image">
+</picture>
+/*  */
+<picture>
+  <source srcset="smaller_landscape.jpg" media="(max-width: 40em) and (orientation: landscape)">
+  <source srcset="smaller_portrait.jpg" media="(max-width: 40em) and (orientation: portrait)">
+  <source srcset="default_landscape.jpg" media="(min-width: 40em) and (orientation: landscape)">
+  <source srcset="default_portrait.jpg" media="(min-width: 40em) and (orientation: portrait)">
+  <img srcset="default_landscape.jpg" alt="My default image">
+</picture>
+```
+
+目前浏览器对\<picture\>并不好，需要添加[picturefill](http://scottjehl.github.io/picturefill/)，做一些兼容性处理
+
+### javascript方法
+
+[基于jquery的HiSRC插件](https://link.jianshu.com/?t=https://github.com/teleject/hisrc)，
+基于网速和是否为retina屏来显示图片。
+
+正常情况下会直接加载src中的资源；如果网速较好就会加载data-1x中的资源替代原来src的文件；
+如果设备像素比又比较高的话，就会加载data-2x中的资源代替原来的src中的图片。
