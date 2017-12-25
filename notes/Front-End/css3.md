@@ -328,8 +328,6 @@ skewY(angle): 定义沿着Y轴的2D倾斜转换。
 
 perspective(n): 为3D转换元素定义透视视图。
 
-#### 浏览器支持
-
 Internet Explorer 10、Firefox、Opera 支持 transform 属性。
 Internet Explorer 9 支持替代的 -ms-transform 属性（仅适用于 2D 转换）。
 Safari 和 Chrome 支持替代的 -webkit-transform 属性（3D 和 2D 转换）。
@@ -338,6 +336,63 @@ Opera 只支持 2D 转换。
 ### Animation
 
 Animation让CSS拥有了可以制作动画的功能。使用CSS3的Animation制作动画我们可以省去复杂的js代码。
+
+## 文本
+
+### text-overflow
+
+text-overflow 属性规定当文本溢出包含元素时该如何处理。
+
+```css
+text-overflow: clip|ellipsis|string;
+```
+
+值 | 描述 | 测试
+------- | ------- | -------
+clip | 修剪文本。 | 测试
+ellipsis | 显示省略符号来代表被修剪的文本。 | 测试
+string | 使用给定的字符串来代表被修剪的文本。
+
+### white-space
+
+white-space 属性设置如何处理元素内的空白。
+
+值 | 描述
+--|---
+normal | 默认。空白会被浏览器忽略。
+pre | 空白会被浏览器保留。其行为方式类似 HTML 中的 <pre> 标签。
+nowrap | 文本不会换行，文本会在在同一行上继续，直到遇到 <br> 标签为止。
+pre-wrap | 保留空白符序列，但是正常地进行换行。
+pre-line | 合并空白符序列，但是保留换行符。
+inherit | 规定应该从父元素继承 white-space 属性的值。
+
+### word-wrap
+
+word-wrap 属性允许长单词或 URL 地址换行到下一行。继承父级属性。
+
+```css
+word-wrap: normal|break-word;
+```
+
+值 | 描述
+--|---
+normal | 只在允许的断字点换行（浏览器保持默认处理）。
+break-word | 在长单词或 URL 地址内部进行换行。
+
+### word-break
+
+word-break 属性规定自动换行的处理方法。通过使用 word-break 属性，可以让浏览器实现在任意位置的换行。
+继承父级属性值。
+
+```css
+word-break: normal|break-all|keep-all;
+```
+
+值 | 描述
+--|---述
+normal | 默认值，使用浏览器默认的换行规则。
+break-all | 允许在单词内换行。
+keep-all | 只能在半角空格或连字符处换行。
 
 ## 边框
 
@@ -358,9 +413,7 @@ border-radius可以创建圆角边框，border-radius 属性是一个简写属�
 
 按此顺序设置每个 radii 的四个值。如果省略 bottom-left，则与 top-right 相同。如果省略 bottom-right，则与 top-left 相同。如果省略 top-right，则与 top-left 相同。
 
-#### 浏览器支持
-
-IE9+、Firefox 4+、Chrome、Safari 5+ 以及 Opera 支持 border-radius 属性。
+浏览器支持: IE9+、Firefox 4+、Chrome、Safari 5+ 以及 Opera 支持 border-radius 属性。
 
 ### box-shadow
 
@@ -373,9 +426,7 @@ box-shadow可以为元素添加阴影
 | 版本：| CSS3 |
 | JavaScript 语法：| object.style.boxShadow="10px 10px 5px #888888" |
 
-#### 浏览器支持
-
-IE9+、Firefox 4、Chrome、Opera 以及 Safari 5.1.1 支持 box-shadow 属性。
+浏览器支持: IE9+、Firefox 4、Chrome、Opera 以及 Safari 5.1.1 支持 box-shadow 属性。
 
 ### border-image
 
@@ -389,8 +440,7 @@ border-image-width | 图片边框的宽度。
 border-image-outset | 边框图像区域超出边框的量。
 border-image-repeat | 图像边框是否应平铺(repeated)、铺满(rounded)或拉伸(stretched)。
 
-#### 浏览器支持
-
+浏览器支持:
 Internet Explorer 11, Firefox, Opera 15, Chrome 以及 Safari 6 支持 border-image 属性。
 Safari 5 支持替代的 -webkit-border-image 属性。
 
@@ -409,8 +459,7 @@ background-clip属性用于确定背景画区，有以下几种可能的属性�
 
 通常情况，背景都是覆盖整个元素的，利用这个属性可以设定背景颜色或图片的覆盖范围。
 
-#### 浏览器支持
-
+浏览器支持:
 IE9+、Firefox、Opera、Chrome 以及 Safari 支持 background-clip 属性。
 注释：Internet Explorer 8 以及更早的版本不支持 background-clip 属性。
 
@@ -501,8 +550,6 @@ JavaScript 语法： | object.style.wordWrap="break-word"
 normal | 只在允许的断字点换行（浏览器保持默认处理）。
 break-word | 在长单词或 URL 地址内部进行换行。
 
-#### 浏览器支持
-
 所有主流浏览器都支持 word-wrap 属性。
 
 ### text-overflow
@@ -525,8 +572,6 @@ JavaScript 语法： | object.style.textOverflow="ellipsis"
 clip | 修剪文本。
 ellipsis | 显示省略符号来代表被修剪的文本。
 string | 使用给定的字符串来代表被修剪的文本。
-
-#### 浏览器支持
 
 所有主流浏览器都支持 text-overflow 属性。
 
@@ -580,7 +625,7 @@ text-stroke-color | 设置或检索对象中的文字的描边颜色
 
 |||
 --------|------------------
-<angle> | 用角度值指定渐变的方向（或角度）。
+\<angle> | 用角度值指定渐变的方向（或角度）。
 to left | 设置渐变为从右到左。相当于: 270deg
 to right | 设置渐变从左到右。相当于: 90deg
 to top | 设置渐变从下到上。相当于: 0deg
@@ -590,9 +635,9 @@ to bottom | 设置渐变从上到下。相当于: 180deg。这是默认值，等
 
 |||
 --------|------
-<color> | 指定颜色。
-<length> | 用长度值指定起止色位置。不允许负值
-<percentage> | 用百分比指定起止色位置。
+\<color\> | 指定颜色。
+\<length\> | 用长度值指定起止色位置。不允许负值
+\<percentage\> | 用百分比指定起止色位置。
 
 ### radial-gradient(径向渐变)
 
@@ -602,24 +647,24 @@ to bottom | 设置渐变从上到下。相当于: 180deg。这是默认值，等
 
 `<position> = [ <length>① | <percentage>① | left | center① | right ]? [ <length>② | <percentage>② | top | center② | bottom ]?`
 
-<position> 确定圆心的位置。如果提供2个参数，第一个表示横坐标，第二个表示纵坐标；如果只提供一个，第二值默认为50%，即center
+\<position\> 确定圆心的位置。如果提供2个参数，第一个表示横坐标，第二个表示纵坐标；如果只提供一个，第二值默认为50%，即center
 
 |||
 -----------|-------------------------------------------------------------
-<percentage①> | 用百分比指定径向渐变圆心的横坐标值。可以为负值。
-<length①> | 用长度值指定径向渐变圆心的横坐标值。可以为负值。
+\<percentage①\> | 用百分比指定径向渐变圆心的横坐标值。可以为负值。
+\<length①\> | 用长度值指定径向渐变圆心的横坐标值。可以为负值。
 left | 设置左边为径向渐变圆心的横坐标值。
 center① | 设置中间为径向渐变圆心的横坐标值。
 right | 设置右边为径向渐变圆心的横坐标值。
-<percentage>② | 用百分比指定径向渐变圆心的纵坐标值。可以为负值。
-<length>② | 用长度值指定径向渐变圆心的纵坐标值。可以为负值。
+\<percentage\>② | 用百分比指定径向渐变圆心的纵坐标值。可以为负值。
+\<length\>② | 用长度值指定径向渐变圆心的纵坐标值。可以为负值。
 top | 设置顶部为径向渐变圆心的纵坐标值。
 center② | 设置中间为径向渐变圆心的纵坐标值。
 bottom | 设置底部为径向渐变圆心的纵坐标值。
 
 `<shape> = circle | ellipse`
 
-<shape> 确定圆的类型
+\<shape\> 确定圆的类型
 
 |||
 --------|-------
@@ -630,7 +675,7 @@ ellipse | 指定椭圆形的径向渐变。
 
 |||
 ------------------------|---------------------
-<extent-keyword> | circle ellipse 都接受该值作为 size
+\<extent-keyword> | circle ellipse 都接受该值作为 size
 closest-side | 指定径向渐变的半径长度为从圆心到离圆心最近的边
 closest-corner | 指定径向渐变的半径长度为从圆心到离圆心最近的角
 farthest-side | 指定径向渐变的半径长度为从圆心到离圆心最远的边
@@ -640,30 +685,29 @@ farthest-corner | 指定径向渐变的半径长度为从圆心到离圆心最�
 
 `<circle-size> = <length>`
 
-<circle-size> circle 接受该值作为 size
-<length> 用长度值指定正圆径向渐变的半径长度。不允许负值。
+\<circle-size> circle 接受该值作为 size
+\<length> 用长度值指定正圆径向渐变的半径长度。不允许负值。
 
 `<ellipse-size> = [ <length> | <percentage> ]{2}`
 
-<ellipse-size> ellipse 接受该值作为 size
+\<ellipse-size> ellipse 接受该值作为 size
 
 `<shape-size> = <length> | <percentage>`
 
 |||
 ---------|------------------------------
-<length> | 用长度值指定椭圆径向渐变的横向或纵向半径长度。不允许负值。
-<percentage> | 用百分比指定椭圆径向渐变的横向或纵向半径长度。不允许负值。
-
+\<length> | 用长度值指定椭圆径向渐变的横向或纵向半径长度。不允许负值。
+\<percentage> | 用百分比指定椭圆径向渐变的横向或纵向半径长度。不允许负值。
 
 `<color-stop> = <color> [ <length> | <percentage> ]?`
 
-<color-stop> 用于指定渐变的起止颜色
+\<color-stop> 用于指定渐变的起止颜色
 
 |||
 --------|------
-<color> | 指定颜色。
-<length> | 用长度值指定起止色位置。不允许负值
-<percentage> | 用百分比指定起止色位置。不允许负值
+\<color> | 指定颜色。
+\<length> | 用长度值指定起止色位置。不允许负值
+\<percentage> | 用百分比指定起止色位置。不允许负值
 
 ## @font-face特性
 
@@ -673,7 +717,7 @@ farthest-corner | 指定径向渐变的半径长度为从圆心到离圆心最�
 
 如需为HTML元素使用字体，请通过font-family属性来引用字体的名称 (myFont)
 
-```
+```css
 @font-face {
     font-family: myFirstFont;
     src: url('Sansation_Light.ttf'),
@@ -683,24 +727,6 @@ div{
     font-family:myFirstFont;
 }
 ```
-
-## 多列布局
-
-通过CSS3，能够创建多个列来对文本进行布局，IE10和Opera支持多列属性。Firefox 需要前缀-moz-，Chrome和Safari需要前缀-webkit-。
-
-主要有如下三个属性
-
-### column-count
-
-规定元素应该被分隔的列数。
-
-### column-gap
-
-规定列之间的间隔。
-
-### column-rule
-
-设置列之间的宽度、样式和颜色规则
 
 ## 用户界面
 
@@ -738,7 +764,7 @@ outline-offset属性对轮廓进行偏移，并在超出边框边缘的位置绘
 只有background中的图片可以使用此方法。
 
 ```css
-@media 
+@media
 only screen and (-webkit-min-device-pixel-ratio:2),
 only screen and (-min-moz-device-pixel-ratio:2),//版本低于16的Firefox
 only screen and (min-resolution:2dppx),
