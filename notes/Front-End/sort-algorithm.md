@@ -86,7 +86,9 @@ selectionSort([5,4,3,2,1])
 
 ### 插入排序(Insertion Sort)
 
-插入排序有点类似人类按字母顺序对数据进行排序，就如同你打扑克牌一样，将摸来的扑克按大小放到合适的位置一样。它的原理就是通过嵌套循环，外循环将数组元素挨个移动，而内循环则对外循环中选中的元素及它后面的元素进行比较；如果外循环中选中的元素比内循环中选中的元素小，那么数组元素会向右移动，为内循环中的这个元素腾出位置。
+插入排序有点类似人类按字母顺序对数据进行排序，就如同你打扑克牌一样，将摸来的扑克按大小放到合适的位置一样。
+它的原理就是通过嵌套循环，外循环将数组元素挨个移动，而内循环则对外循环中选中的元素及它后面的元素进行比较；
+如果外循环中选中的元素比内循环中选中的元素小，那么数组元素会向右移动，为内循环中的这个元素腾出位置。
 
 算法思想如下:
 
@@ -222,19 +224,18 @@ console.timeEnd('sort')
 3.直至各区间只有1个数。
 
 ```js
-function quickSort(input) {
+function quickSort (input) {
   if (input.length < 2) return input;
-  let pivot = input[0];
+  const pivot = input[0];
   let left = [];
   let right = [];
-  for(let i = 0; i < input.length; i++) {
-    if (input[i] < pivot) {
-      left.push(input[i]);
-    } else if (input[i] > pivot) {
-      right.push(input[i])
-    }
+  let center = [];
+  for(let i = 1; i < input.length; i++) {
+    if ( input[i] < pivot) left.push(input[i]);
+    else if ( input[i] > pivot) right.push(input[i]);
+    else center.push(input[i])
   }
-  return quickSort(left).concat([pivot]).concat(quickSort(right));
+  return [...quickSort(left), pivot, ...center, ...quickSort(right)]
 }
 console.time('sort')
 quickSort([6,5,4,3,2,1])

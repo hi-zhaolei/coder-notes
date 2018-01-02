@@ -152,7 +152,7 @@ for (const x of genFunc()) {
 // b
 
 // 扩展操作符(...)
-const arr = [...genFunc()]; 
+const arr = [...genFunc()];
 // output
 // ['a', 'b']
 
@@ -493,7 +493,7 @@ class Example {
 
 #### readAsDataURL(file)
 
-读取文件内容，读取结果为一个 data: 的 URL。DataURL 由 RFC2397 定义，具体可以参考 http://www.ietf.org/rfc/rfc2397.txt。
+读取文件内容，读取结果为一个 data: 的 URL。DataURL 由 RFC2397 定义，具体可以[参考](http://www.ietf.org/rfc/rfc2397.txt)。
 
 ### 事件
 
