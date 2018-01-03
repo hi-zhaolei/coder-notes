@@ -46,7 +46,7 @@ CSS Grid布局 （又名"网格"），是一个基于二维网格布局的系统
 
 ```css
 .container{
-    display: grid | inline-grid   
+    display: grid | inline-grid
 }
 /* column, float, clear, 和 vertical-align 元素对网格容器不起作用。 */
 ```
@@ -137,7 +137,7 @@ stretch: 内容高度占据整个网格区域空间(默认值) */
 
 ```css
 .container{
-    justify-content: start | end | center | stretch | space-around | space-between | space-evenly;    
+    justify-content: start | end | center | stretch | space-around | space-between | space-evenly;
 }
 /* start: 网格与网格容器的左端对齐
 end: 网格与网格容器的右端对齐
@@ -154,7 +154,7 @@ space-evenly: 在网格项之间设置偶数个空格间隙，同样适用于最
 
 ```css
 .container{
-    align-content: start | end | center | stretch | space-around | space-between | space-evenly;  
+    align-content: start | end | center | stretch | space-around | space-between | space-evenly;
 }
 /* start: 网格与网格容器的顶端对齐
 end: 网格与网格容器的底部对齐

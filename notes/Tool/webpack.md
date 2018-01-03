@@ -4,9 +4,9 @@
 
 通过你对webpack的使用，有两种方式传递配置对象
 
-1. CLI  如果你使用CLI方式，webpack将会读取一个webpack.config.js的文件，或者通过—config传递对应配置文件
+1.CLI  如果你使用CLI方式，webpack将会读取一个webpack.config.js的文件，或者通过—config传递对应配置文件
 
-2. node.js API  如果你使用API的形式，需要将配置当作参数传递给webpack方法
+2.node.js API  如果你使用API的形式，需要将配置当作参数传递给webpack方法
 
 ### hint
 
@@ -61,6 +61,7 @@
         * false 关闭跨域加载
         * anonymous 激活跨域，请求是匿名的
         * user-credentials 激活跨域，请求会带上证书
+
 ### module
 
 影响常规模块

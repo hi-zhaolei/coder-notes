@@ -63,8 +63,6 @@ window.name属性可设置或者返回存放窗口名称的一个字符串。
 由于 iframe 如果和当前文件不同域，是无法操作和读取 iframe 里数据的，
 所以在iframe载入过程中，迅速重置iframe.src的指向，使之与index.html同源，那么index页面就能去获取它的name值了
 
-
-
 ```js
 iframe = document.createElement('iframe'),
 iframe.src = 'http://localhost:8080/data.php';
@@ -81,7 +79,6 @@ iframe.onload = function() {
 
 和 window.name 一样是动态插入一个iframe然后设置其src为服务端地址，而服务端同样输出一端js代码，也同时通过与子窗口之间的通信来完成数据的传输。
 不同的是，window.name 是吧数据写到 window.name 上，这里是写到 location.hash 上。
-
 
 利用全局对象属性的方法，缺点和jsonp也是一样的，就是只能够实现get请求。
 

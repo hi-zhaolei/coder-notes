@@ -46,3 +46,38 @@
     zoom:1;
 }
 ```
+
+8.bootstrap清除浮动
+
+```css
+.clearfix:before,
+.clearfix:after {
+    content: " ";
+    display: table;
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+/**
+ * For IE 6/7 only
+ */
+.clearfix {
+    *zoom: 1;
+}
+```
+
+1.:after伪类在元素末尾插入了一个包含空格的字符，并设置display为table
+
+display:table会创建一个匿名的table-cell，从而触发块级上下文（BFC），因为容器内float的元素也是BFC，由于BFC有不能互相重叠的特性，并且设置了clear: both，:after插入的元素会被挤到容器底部，从而将容器撑高。
+并且设置display:table后，content中的空格字符会被渲染为0*0的空白元素，不会占用页面空间。
+
+content包含一个空格，是为了解决Opera浏览器的BUG。当HTML中包含 contenteditable 属性时，如果 content 没有包含空格，会造成清除浮动元素的顶部、底部有一个空白（设置font-size：0也可以解决这个问题）。
+
+2.:after伪类的设置已经达到了清除浮动的目的，但还要设置:before伪类，原因如下
+
+:before的设置也触发了一个BFC，由于BFC有内部布局不受外部影响的特性，因此:before的设置可以阻止margin-top的合并。
+这样做，其一是为了和其他清除浮动的方式的效果保持一致；其二，是为了与ie6/7下设置zoom：1后的效果一致（即阻止margin-top合并的效果）。
+
+3.zoom: 1用于在ie6/7下触发haslayout和contain floats
