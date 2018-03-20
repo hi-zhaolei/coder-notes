@@ -8,9 +8,11 @@
 ## 安装
 **Git**的安装方法有很多，也有很多**GUI**工具，但个人还是推荐使用命令行界面，因为身为程序员**命令行**是不可能回避的一个领域，所以不要逃避。
 
-  * [Mac setup](https://help.github.com/articles/set-up-git/)
-  * [Windows setup](https://help.github.com/articles/set-up-git/#platform-windows)
-  * [Linux setup](https://help.github.com/articles/set-up-git/#platform-linux)
+* [Mac setup](https://help.github.com/articles/set-up-git/)
+
+* [Windows setup](https://help.github.com/articles/set-up-git/#platform-windows)
+
+* [Linux setup](https://help.github.com/articles/set-up-git/#platform-linux)
 
 ## 工作流
 
@@ -22,7 +24,7 @@
 
 ### git config
 
-配置项都会被**Git**存储到你家目录下的**.gitconfig**文档中
+配置项都会被**Git**存储到家目录下的**.gitconfig**文档中
 
 ### git init
 
@@ -49,9 +51,23 @@
 已经在**stage**下的文件下一步就是**commit**，以实际提交改动到**HEAD**。
 每一个**commit**在**Git**中就是一个节点，这些节点就是将来你可以回顾和追查的参考。
 
+* **git commit --amend**如果当次提交后发现漏掉了几个文件没有添加，或者提交信息写错了。可以继续操作文件到缓存区中，然后执行`git commit --amend`，追加缓存区的文件到上一个commit中
+
+### git reset
+
+取消git动作
+
+* **git reset HEAD [file]**取消stage暂存的档案(撤销`git add`)
+
+* **git checkout -- [file]**取消修改过的档案(撤销`git add`和修改)
+
+* **git reset --hard ORIG_HEAD**取消上次merge操作
+
 ### git remote
 
-用于管理主机名
+远程仓库是指托管在因特网或其他网络中的你的项目的版本库，每个项目可以有好几个远程仓库
+
+此命令用于管理主机名
 
 * 使用**-v**选项，可以参看远程主机的网址
 
@@ -67,15 +83,17 @@
 
 ### git fetch
 
-远程主机的版本库有了comment，将这些更新取回本地
+```bash
+git fetch [remote-name]
+```
+
+这个命令会访问远程仓库，从中拉取所有你还没有的数据。执行完成后，你将会拥有那个远程仓库中所有分支的引用，可以随时合并或查看。
+
+**git fetch**命令会将数据拉取到你的本地仓库，但它并不会自动合并或修改你当前的工作。当准备好时你必须手动将其合并入你的工作。
 
 * **git fetch <远程主机名>**将某个远程主机的更新全部取回本地
 
 * **git fetch <远程主机名> <分支名>**将某个远程主机的某个分支的更新取回本地
-
-* **-r**查看远程分支
-
-* **-a**查看所有分支
 
 ### git pull
 
@@ -91,6 +109,8 @@
 
 * 如果省略本地分支名，则表示删除指定的远程分支，因为这等同于推送一个空的本地分支到远程分支
 
+* 如果当前分支与远程分支存在追踪关系，则本地分支和远程分支都可以省略，将当前分支推送到origin主机的对应分支
+
 * 如果当前分支只有一个追踪分支，那么主机名都可以省略。
 
 * **git branch --set-upstream <本地分支> <远程分支名>**手动建立追踪关系
@@ -100,6 +120,10 @@
 git分支操作
 
 * **git branch**列出所有branch并告诉你当前所在的branch
+
+* **-r**查看远程分支
+
+* **-a**查看所有分支
 
 * **git branch <分支名>**使用你定义的名字创建一个新的branch
 
@@ -111,26 +135,63 @@ git分支操作
 
 * **git merge <远端分支>**合并分支
 
-### git reset
+### git merge
 
-取消git动作
-
-* **git reset --hard ORIG_HEAD**取消上次merge操作
-
-* **git reset HEAD <file>**取消stage暂存的档案
-
-* **git checkout -- <file>**取消修改过的档案
-
-* **git commit --amend**修改之前commit信息
+### git rebase
 
 ### git log
 
+回顾提交历史
+
+默认不用任何参数的话，git log会按提交时间列出所有的更新，最近的更新排在最上面。
+这个命令会列出每个提交的 SHA-1 校验和、作者的名字和电子邮件地址、提交时间以及提交说明。
+
+* **git log -n**仅显示最近的 n 条提交
+
+* **git log --[since/after]=[time]**仅显示指定时间之后的提交。
+
+* **git log --[until/before]=[time]**仅显示指定时间之前的提交。
+
+* **git log --grep=[value]**仅显示含指定关键字的提交
+
+* **git log --author=[name]**仅显示指定作者相关的提交。
+
+* **git log --grep=[value]**仅显示含指定关键字的提交
+
+* **git log -S[function_name]**仅显示添加或移除了某个关键字的提交
+
+* **git log -p**显示每次提交的内容差异，该选项除了显示基本信息之外，还在附带了每次 commit 的变化
+
+* **git log --stat**显示每次提交的简略的统计信息。列出额所有被修改过的文件、有多少文件被修改了以及被修改 过的文件的哪些行被移除或是添加了。
+
+* **git log --pretty=[value]**指定使用不同于默认格式的方式展示提交历史。
+
+* **git log --pretty=online**指定使用单行展示提交历史。
+
+* **git log --pretty=short**指定使用简略方式展示提交历史。显示提交者和commit信息
+
+* **git log --pretty=fuller**指定使用不同于默认格式的方式展示提交历史。显示提交者和commit信息，提交时间等信息
+
+* **git log --pretty=format:"%h - %an, %ar : %s"**定制要显示的提交历史记录格式，方便对后期提取分析
+
+|选项 |说明|
+|----|---------|
+| %H | 提交对象(commit)的完整哈希字串 |
+| %h | 提交对象的简短哈希字串 |
+| %T | 树对象(tree)的完整哈希字串 |
+| %t | 树对象的简短哈希字串 |
+| %P | 父对象(parent)的完整哈希字串 |
+| %p | 父对象的简短哈希字串 |
+| %an | 作者(author)的名字 |
+| %ae | 作者的电子邮件地址 |
+| %ad | 作者修订日期(可以用 --date= 选项定制格式) |
+| %ar | 作者修订日期，按多久以前的方式显示 |
+| %cn | 提交者(committer)的名字 |
+| %ce | 提交者的电子邮件地址 |
+| %cd | 提交日期 |
+| %cr | 提交日期，按多久以前的方式显示 |
+| %s | 提交说明 |
+
+* **git log --pretty=format:"%h %s" --graph**图像展现分支，合并历史
 
 ...To be continued
-
-
-
-
-
-
-

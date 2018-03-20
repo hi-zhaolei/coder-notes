@@ -160,5 +160,3 @@ svn unlock TARGET...
 
 svn blame Target[@REV]
 显示某个已受控文件的每一行的最后修改版本和作者，加上**--xml**参数可以以xml格式显示每一行的属性
-
-
