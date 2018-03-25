@@ -3,10 +3,12 @@
 [Git websit](https://git-scm.com/)
 
 ## 前言
+
 **Git**是一套分散式的版本管理系统，版本控制是一个开发团队中不可或缺的工具。
 
 ## 安装
-**Git**的安装方法有很多，也有很多**GUI**工具，但个人还是推荐使用命令行界面，因为身为程序员**命令行**是不可能回避的一个领域，所以不要逃避。
+
+**Git**的安装方法有很多，也有很多**GUI**工具，但个人还是推荐使用命令行界面，因为对于程序员，**命令行**是不可能回避的一个领域，所以不要逃避。
 
 * [Mac setup](https://help.github.com/articles/set-up-git/)
 
@@ -117,27 +119,49 @@ git fetch [remote-name]
 
 ### git branch
 
-git分支操作
+git分支管理操作
 
-* **git branch**列出所有branch并告诉你当前所在的branch
+* **git branch**列出所有本地branch并告诉你当前所在的branch
 
-* **-r**查看远程分支
+* **git branch -r**查看远端分支
 
-* **-a**查看所有分支
+* **git branch -a**查看所有分支，本地+远端
 
-* **git branch <分支名>**使用你定义的名字创建一个新的branch
+* **git branch --no-merged**查看本地未合并分支
+
+* **git branch -merged**查看本地已合并分支，应该被删除
+
+* **git branch <分支名>**使用你定义的分支名创建一个新的branch
+
+* **git branch -d <分支名>**删除本地分支(必须是已合并分支)
+
+* **git branch -D <分支名>**强制删除本地分支
 
 * **git checkout -b <新分支> <远端分支>**创建分支
 
+相当于
+
+```bash
+git branch <新分支>
+git checkout <新分支>
+```
+
 * **git checkout <分支名>**切换分支
-
-* **git rebase**整理本地分支，当远端有新的comment时
-
-* **git merge <远端分支>**合并分支
 
 ### git merge
 
+* **git merge <远端分支>**合并分支
+
 ### git rebase
+
+将提交到某一分支上的所有修改都移至另一分支上
+
+原理是首先找到这两个分支的最近共同祖先，然后对比当前分支相对于该祖先的历次提交，
+提取相应的修改并存为临时文件，然后将当前分支指向目标基底, 最后以此将之前另存为临时文件的修改依序应用。
+
+* **git rebase <分支名>**简单说就是整理本地分支，将分支上已提交的commit打包成一个新的commit，然后将当前分支重置为新建状态，里面只包含这个新的commit提交
+
+虽然rebase很有用，但**请不要对在你的仓库外有副本的分支执行变基！！！**
 
 ### git log
 
