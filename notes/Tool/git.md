@@ -129,7 +129,7 @@ git分支管理操作
 
 * **git branch --no-merged**查看本地未合并分支
 
-* **git branch -merged**查看本地已合并分支，应该被删除
+* **git branch --merged**查看本地已合并分支，应该被删除
 
 * **git branch <分支名>**使用你定义的分支名创建一个新的branch
 
